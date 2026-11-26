@@ -266,6 +266,9 @@ export function resolveEducationalImage(
 
   const base = import.meta.env.BASE_URL || '/';
   const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+  if (normalizedBase !== '/' && keyOrPath.startsWith(normalizedBase)) {
+    return keyOrPath;
+  }
   const cleanPath = keyOrPath.startsWith('/') ? keyOrPath.slice(1) : keyOrPath;
   return `${normalizedBase}${cleanPath}`;
 }
