@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { AudioPlayButton } from '../components/AudioPlayButton';
 import { IllustrationImage } from '../components/IllustrationImage';
 import { QuestionBlock } from '../components/QuestionBlock';
+import { SpeechSpeedControl } from '../components/SpeechSpeedControl';
 import { useAcademy } from '../context/AcademyContext';
 import { AnalyticsService } from '../services/AnalyticsService';
 import { AssessmentService } from '../services/AssessmentService';
@@ -106,8 +107,9 @@ export const ReadingModulePage: React.FC = () => {
                 </p>
                 <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{selectedLesson.introAr}</p>
               </div>
-              <div>
+              <div className="flex flex-wrap items-center gap-2.5">
                 <AudioPlayButton text={fullText} labelAr="استمع للنص" />
+                <SpeechSpeedControl variant="inline" />
               </div>
             </div>
             <div className="overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800 lg:col-span-4">

@@ -19,6 +19,7 @@ import { useOnlineStatus } from '../hooks/useOnlineStatus';
 import { CelebrationOverlay } from './CelebrationOverlay';
 import { IllustrationImage } from './IllustrationImage';
 import { PWAInstallButton } from './PWAInstallButton';
+import { SpeechSpeedControl } from './SpeechSpeedControl';
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { activeProfile, settings, toggleTheme, celebrationMessage, dismissCelebration } =
@@ -119,6 +120,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               <AudioLines className="h-4 w-4 text-lime-600 dark:text-lime-400" />
               <span>المختبر الصوتي</span>
             </Link>
+            <SpeechSpeedControl />
             <PWAInstallButton />
             <button
               type="button"

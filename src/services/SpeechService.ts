@@ -16,6 +16,153 @@ interface BrowserSpeechRecognition {
   onend: (() => void) | null;
 }
 
+const ROBOTIC_VOICE_KEYWORDS = [
+  'espeak',
+  'compact',
+  'albert',
+  'bad news',
+  'bahh',
+  'bells',
+  'boing',
+  'bubbles',
+  'cellos',
+  'good news',
+  'jester',
+  'organ',
+  'trinoids',
+  'whisper',
+  'zarvox',
+  'wobble',
+  'superstar',
+  'ralph',
+  'fred',
+];
+
+const HIGH_QUALITY_APPLE_NAMES = [
+  'samantha',
+  'daniel',
+  'serena',
+  'martha',
+  'arthur',
+  'karen',
+  'moira',
+  'tessa',
+  'ava',
+  'allison',
+  'kate',
+  'oliver',
+  'zoe',
+];
+
+let cachedVoices: SpeechSynthesisVoice[] = [];
+let voicesListenerAttached = false;
+
+function refreshVoices(): SpeechSynthesisVoice[] {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return [];
+  const list = window.speechSynthesis.getVoices();
+  if (list.length > 0) {
+    cachedVoices = list;
+  }
+  return cachedVoices;
+}
+
+function ensureVoicesLoaded() {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+  refreshVoices();
+  if (!voicesListenerAttached) {
+    voicesListenerAttached = true;
+    window.speechSynthesis.addEventListener?.('voiceschanged', refreshVoices);
+  }
+}
+
+function scoreHumanVoice(voice: SpeechSynthesisVoice, preferredAccent: 'en-GB' | 'en-US'): number {
+  const lang = voice.lang.toLowerCase();
+  if (!lang.startsWith('en')) return -1000;
+
+  const name = voice.name.toLowerCase();
+  let score = 0;
+
+  // Accent match
+  if (lang === preferredAccent.toLowerCase() || lang.startsWith(preferredAccent.toLowerCase())) {
+    score += 35;
+  } else if (lang.startsWith('en-gb') || lang.startsWith('en-us')) {
+    score += 20;
+  } else {
+    score += 10;
+  }
+
+  // Highest quality: Neural / Natural online voices (Edge, Chrome, modern OS)
+  if (name.includes('natural') || name.includes('neural')) {
+    score += 110;
+  }
+  if (name.includes('online')) {
+    score += 25;
+  }
+
+  // Apple Enhanced / Premium / Siri voices on iPad, iPhone, macOS
+  if (name.includes('premium')) {
+    score += 95;
+  } else if (name.includes('enhanced')) {
+    score += 85;
+  } else if (name.includes('siri')) {
+    score += 80;
+  }
+
+  // Google natural voices in Chrome / Android
+  if (name.includes('google uk english') || name.includes('google us english')) {
+    score += 75;
+  } else if (name.includes('google')) {
+    score += 55;
+  }
+
+  // Known pleasant human-sounding Apple / Microsoft voices
+  if (HIGH_QUALITY_APPLE_NAMES.some((n) => name.includes(n))) {
+    score += 40;
+  }
+  if (
+    name.includes('aria') ||
+    name.includes('jenny') ||
+    name.includes('sonia') ||
+    name.includes('ryan') ||
+    name.includes('libby') ||
+    name.includes('guy')
+  ) {
+    score += 45;
+  }
+
+  // Penalize robotic or novelty voices
+  if (ROBOTIC_VOICE_KEYWORDS.some((bad) => name.includes(bad))) {
+    score -= 80;
+  }
+  if (name.includes('microsoft david') || name.includes('microsoft zira') || name.includes('microsoft mark')) {
+    score -= 15;
+  }
+
+  return score;
+}
+
+function selectBestHumanVoice(preferredAccent: 'en-GB' | 'en-US'): SpeechSynthesisVoice | null {
+  ensureVoicesLoaded();
+  const voices = refreshVoices();
+  if (voices.length === 0) return null;
+
+  let best: SpeechSynthesisVoice | null = null;
+  let bestScore = -999;
+
+  for (const voice of voices) {
+    const score = scoreHumanVoice(voice, preferredAccent);
+    if (score > bestScore) {
+      bestScore = score;
+      best = voice;
+    }
+  }
+
+  return best;
+}
+
+// Pre-warm voice list on load
+ensureVoicesLoaded();
+
 export const SpeechService = {
   isTTSSupported(): boolean {
     return typeof window !== 'undefined' && 'speechSynthesis' in window;
@@ -25,6 +172,10 @@ export const SpeechService = {
     if (typeof window === 'undefined') return false;
     const win = window as unknown as Record<string, unknown>;
     return Boolean(win.SpeechRecognition || win.webkitSpeechRecognition);
+  },
+
+  getActiveVoiceName(accent: 'en-GB' | 'en-US' = 'en-GB'): string | null {
+    return selectBestHumanVoice(accent)?.name ?? null;
   },
 
   stopSpeaking(): void {
@@ -54,21 +205,17 @@ export const SpeechService = {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       const preferredAccent = options?.accent || 'en-GB';
-      utterance.lang = preferredAccent;
-      utterance.rate = options?.rate ?? 0.9;
-      utterance.pitch = 1;
+      const clampedRate = Math.min(1.5, Math.max(0.5, options?.rate ?? 0.9));
 
-      const voices = window.speechSynthesis.getVoices();
-      if (voices.length > 0) {
-        const exactMatch = voices.find((v) =>
-          v.lang.toLowerCase().startsWith(preferredAccent.toLowerCase())
-        );
-        const anyEnglish = voices.find((v) => v.lang.toLowerCase().startsWith('en'));
-        if (exactMatch) {
-          utterance.voice = exactMatch;
-        } else if (anyEnglish) {
-          utterance.voice = anyEnglish;
-        }
+      utterance.lang = preferredAccent;
+      utterance.rate = clampedRate;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+
+      const bestVoice = selectBestHumanVoice(preferredAccent);
+      if (bestVoice) {
+        utterance.voice = bestVoice;
+        utterance.lang = bestVoice.lang || preferredAccent;
       }
 
       utterance.onstart = () => options?.onStart?.();
