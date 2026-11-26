@@ -35,7 +35,7 @@ export const ModulesHubPage: React.FC = () => {
         </p>
       </div>
 
-      <div className="grid gap-5 md:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {ACADEMY_MODULES.map((mod) => {
           const modLessons = allLessons.filter((l) => l.moduleId === mod.id);
           const doneCount = modLessons.filter((l) => completedSet.has(l.id)).length;

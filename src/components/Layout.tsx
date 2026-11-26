@@ -39,27 +39,27 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     }`;
 
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      {/* Top Bar: Strictly 1 row, 3 zones */}
-      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-8 px-4 sm:px-6 lg:px-8">
+    <div className="flex min-h-[100dvh] flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+      {/* Top Bar: Strictly 1 row, 3 zones (optimized for iPad Portrait/Landscape & Tablets) */}
+      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 pt-safe backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95">
+        <div className="mx-auto flex min-h-[56px] max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 md:gap-4 lg:gap-8 lg:px-8">
           {/* Zone 1: Single-line brand mark */}
           <Link
             to="/"
-            className="flex items-center gap-2.5 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-teal-600"
+            className="flex min-w-0 items-center gap-2 sm:gap-2.5 focus-visible:outline-2 focus-visible:outline-teal-600"
           >
             <IllustrationImage
               src="/src/assets/images/academy_crest_emblem_1795680222767.jpg"
               alt="شعار الأكاديمية"
-              className="h-8 w-8 rounded-lg object-cover"
+              className="h-8 w-8 shrink-0 rounded-lg object-cover"
             />
-            <span dir="ltr" className="font-en text-sm font-bold tracking-tight text-slate-900 dark:text-white sm:text-base">
+            <span dir="ltr" className="font-en truncate text-xs font-bold tracking-tight text-slate-900 dark:text-white sm:text-sm lg:text-base">
               ENGLISH LEARNING ACADEMY
             </span>
           </Link>
 
           {/* Zone 2: 4 single-line navigation links */}
-          <nav className="hidden items-center gap-6 md:flex" aria-label="التنقل الرئيسي">
+          <nav className="hidden items-center gap-4 md:flex lg:gap-6" aria-label="التنقل الرئيسي">
             <NavLink to="/" end className={navLinkClass}>
               الرئيسية
             </NavLink>
@@ -78,7 +78,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           <div className="flex items-center shrink-0">
             <Link
               to="/placement"
-              className="inline-flex min-h-[40px] items-center justify-center rounded-lg bg-teal-700 px-4 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-teal-800 dark:bg-teal-600 dark:hover:bg-teal-500 whitespace-nowrap shrink-0"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-teal-700 px-3.5 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-teal-800 dark:bg-teal-600 dark:hover:bg-teal-500 whitespace-nowrap shrink-0 sm:px-4"
             >
               تحديد المستوى
             </Link>
@@ -88,11 +88,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
       {/* Non-sticky Workspace Utility Strip */}
       <div className="border-b border-slate-200/80 bg-white/70 dark:border-slate-800/80 dark:bg-slate-900/60">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600 dark:text-slate-300">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-2 sm:gap-3 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600 dark:text-slate-300 sm:gap-3">
             <Link
               to="/profiles"
-              className="inline-flex min-h-[40px] items-center gap-2 rounded-lg px-2 py-1 font-semibold text-slate-800 transition-colors hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-lg px-2 py-1 font-semibold text-slate-800 transition-colors hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"
             >
               <UserCircle2 className="h-4 w-4 text-teal-700 dark:text-teal-400" />
               <span>{activeProfile?.nickname || 'طالب الأكاديمية'}</span>
@@ -109,10 +109,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Link
               to="/audio-lab"
-              className="phosphor-card-interactive inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-slate-800 dark:bg-slate-800 dark:text-lime-300 whitespace-nowrap shrink-0"
+              className="phosphor-card-interactive inline-flex min-h-[44px] items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-slate-800 dark:bg-slate-800 dark:text-lime-300 whitespace-nowrap shrink-0"
             >
               <AudioLines className="h-4 w-4 text-lime-600 dark:text-lime-400" />
               <span>المختبر الصوتي</span>
@@ -121,7 +121,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <button
               type="button"
               onClick={toggleTheme}
-              className="inline-flex min-h-[40px] min-w-[40px] items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 whitespace-nowrap shrink-0"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 whitespace-nowrap shrink-0"
               aria-label={settings.theme === 'dark' ? 'التبديل إلى الوضع الفاتح' : 'التبديل إلى الوضع الداكن'}
             >
               {settings.theme === 'dark' ? (

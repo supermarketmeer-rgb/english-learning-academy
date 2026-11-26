@@ -1,88 +1,127 @@
-import { Download, Share, X } from 'lucide-react';
+import { Download, Share, Smartphone, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { usePWAInstall } from '../hooks/usePWAInstall';
 
 export const PWAInstallButton: React.FC<{ variant?: 'compact' | 'card' }> = ({
   variant = 'compact',
 }) => {
-  const { isInstallable, isInstalled, isIOS, install } = usePWAInstall();
-  const [showIOSGuide, setShowIOSGuide] = useState(false);
+  const { isInstallable, isInstalled, isIOS, isAndroid, install } = usePWAInstall();
+  const [showGuide, setShowGuide] = useState(false);
 
+  // Hide completely once installed or launched from the home screen / desktop icon
   if (isInstalled) {
     return null;
   }
 
-  if (isInstallable) {
-    return (
-      <button
-        type="button"
-        onClick={install}
-        className={
-          variant === 'card'
-            ? 'inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-teal-700 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-800 whitespace-nowrap shrink-0'
-            : 'inline-flex min-h-[40px] items-center gap-2 rounded-lg border border-teal-700/30 bg-teal-50 px-3 py-1.5 text-xs font-semibold text-teal-800 transition-colors hover:bg-teal-100 dark:border-teal-500/30 dark:bg-teal-950/60 dark:text-teal-200 dark:hover:bg-teal-900/60 whitespace-nowrap shrink-0'
-        }
-      >
-        <Download className="h-4 w-4" />
+  const handleClick = async () => {
+    if (isInstallable) {
+      await install();
+      return;
+    }
+    setShowGuide(true);
+  };
+
+  const buttonClass =
+    variant === 'card'
+      ? 'inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-teal-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-teal-800 dark:bg-teal-600 dark:hover:bg-teal-500 whitespace-nowrap shrink-0'
+      : 'inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-teal-700/30 bg-teal-50 px-3 py-1.5 text-xs font-semibold text-teal-800 transition-colors hover:bg-teal-100 dark:border-teal-500/30 dark:bg-teal-950/60 dark:text-teal-200 dark:hover:bg-teal-900/60 whitespace-nowrap shrink-0';
+
+  return (
+    <>
+      <button type="button" onClick={handleClick} className={buttonClass}>
+        {isIOS && !isInstallable ? (
+          <Share className="h-4 w-4 shrink-0" />
+        ) : (
+          <Download className="h-4 w-4 shrink-0" />
+        )}
         <span>تثبيت التطبيق</span>
       </button>
-    );
-  }
 
-  if (isIOS) {
-    return (
-      <>
-        <button
-          type="button"
-          onClick={() => setShowIOSGuide(true)}
-          className="inline-flex min-h-[40px] items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 whitespace-nowrap shrink-0"
+      {showGuide && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-xs"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="pwa-install-guide-title"
+          onClick={() => setShowGuide(false)}
         >
-          <Share className="h-4 w-4" />
-          <span>تثبيت على iPad / iPhone</span>
-        </button>
-
-        {showIOSGuide && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-xs"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="ios-install-title"
+            className="phosphor-card w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-900"
+            onClick={(e) => e.stopPropagation()}
           >
-            <div className="phosphor-card w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-900">
-              <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-700 dark:bg-teal-950/60 dark:text-teal-300">
+                  <Smartphone className="h-5 w-5" />
+                </span>
                 <h3
-                  id="ios-install-title"
-                  className="text-lg font-bold text-slate-900 dark:text-slate-100"
+                  id="pwa-install-guide-title"
+                  className="text-base font-bold text-slate-900 dark:text-slate-100 sm:text-lg"
                 >
-                  تثبيت الأكاديمية على iPad أو iPhone
+                  {isIOS
+                    ? 'تثبيت التطبيق على iPad أو iPhone'
+                    : 'تثبيت التطبيق على جهازك'}
                 </h3>
-                <button
-                  type="button"
-                  onClick={() => setShowIOSGuide(false)}
-                  className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
-                  aria-label="إغلاق"
-                >
-                  <X className="h-5 w-5" />
-                </button>
               </div>
-              <ol className="mt-4 space-y-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                <li>1. اضغط على زر المشاركة (Share) في شريط متصفح Safari.</li>
-                <li>2. مرر للأسفل واختر «إضافة إلى الشاشة الرئيسية» (Add to Home Screen).</li>
-                <li>3. اضغط «إضافة» (Add) لتعمل الأكاديمية كتطبيق مستقل وحتى دون إنترنت.</li>
-              </ol>
               <button
                 type="button"
-                onClick={() => setShowIOSGuide(false)}
-                className="mt-6 min-h-[44px] w-full rounded-lg bg-teal-700 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
+                onClick={() => setShowGuide(false)}
+                className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
+                aria-label="إغلاق"
               >
-                فهمت
+                <X className="h-5 w-5" />
               </button>
             </div>
-          </div>
-        )}
-      </>
-    );
-  }
 
-  return null;
+            {isIOS ? (
+              <ol className="mt-4 space-y-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                <li>1. اضغط على زر المشاركة (Share) في شريط متصفح Safari.</li>
+                <li>
+                  2. مرّر للأسفل واختر <strong>«إضافة إلى الشاشة الرئيسية»</strong> (Add to Home
+                  Screen).
+                </li>
+                <li>
+                  3. اضغط <strong>«إضافة»</strong> (Add) لتظهر أيقونة التطبيق على الشاشة الرئيسية
+                  ويعمل مباشرة وحتى دون إنترنت.
+                </li>
+              </ol>
+            ) : isAndroid ? (
+              <ol className="mt-4 space-y-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                <li>1. اضغط على قائمة المتصفح (⋮) في أعلى الشاشة.</li>
+                <li>
+                  2. اختر <strong>«تثبيت التطبيق»</strong> (Install app) أو{' '}
+                  <strong>«إضافة إلى الشاشة الرئيسية»</strong>.
+                </li>
+                <li>
+                  3. اضغط <strong>«تثبيت»</strong> لتتولد أيقونة التطبيق على جهازك ويختفي زر
+                  التثبيت عند فتحه من الأيقونة.
+                </li>
+              </ol>
+            ) : (
+              <ol className="mt-4 space-y-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                <li>
+                  1. اضغط على أيقونة التثبيت في شريط العنوان (أو قائمة المتصفح ⋮ ←{' '}
+                  <strong>تثبيت ENGLISH LEARNING ACADEMY</strong>).
+                </li>
+                <li>
+                  2. وافق على التثبيت لتتولد أيقونة مباشرة على سطح المكتب أو شاشة التطبيقات.
+                </li>
+                <li>
+                  3. عند تشغيل التطبيق من الأيقونة سيعمل بنافذة مستقلة ويختفي زر التثبيت تلقائياً.
+                </li>
+              </ol>
+            )}
+
+            <button
+              type="button"
+              onClick={() => setShowGuide(false)}
+              className="mt-6 min-h-[44px] w-full rounded-xl bg-teal-700 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
+            >
+              فهمت
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
 };

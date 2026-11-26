@@ -2,6 +2,7 @@ import { ArrowLeft, AudioLines, BookOpen, CheckCircle2, Compass, GraduationCap, 
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { IllustrationImage } from '../components/IllustrationImage';
+import { PWAInstallButton } from '../components/PWAInstallButton';
 import { useAcademy } from '../context/AcademyContext';
 import { ACADEMY_MODULES, CEFR_LEVELS } from '../data/curriculumMeta';
 import { ModuleId } from '../types/academy';
@@ -23,9 +24,9 @@ export const HomePage: React.FC = () => {
 
   return (
     <div className="space-y-12">
-      {/* Hero Split Section */}
-      <section className="phosphor-card grid items-stretch gap-8 rounded-2xl bg-white p-6 dark:bg-slate-900 lg:grid-cols-12 lg:p-8">
-        <div className="flex flex-col justify-between space-y-6 lg:col-span-6">
+      {/* Hero Split Section (optimized for all iPad & Tablet screens) */}
+      <section className="phosphor-card grid items-stretch gap-6 rounded-2xl bg-white p-5 dark:bg-slate-900 sm:p-6 md:grid-cols-12 md:gap-8 lg:p-8">
+        <div className="flex flex-col justify-between space-y-6 md:col-span-7 lg:col-span-6">
           <div className="space-y-4">
             <p className="text-xs font-semibold text-teal-700 dark:text-teal-400">
               المراحل الابتدائية والمتوسطة والإعدادية · إطار CEFR من Pre-A1 إلى B2
@@ -69,10 +70,11 @@ export const HomePage: React.FC = () => {
             >
               تصفح الوحدات والمختبر الصوتي
             </Link>
+            <PWAInstallButton variant="card" />
           </div>
         </div>
 
-        <div className="lg:col-span-6">
+        <div className="md:col-span-5 lg:col-span-6">
           <div className="phosphor-card h-full min-h-[240px] overflow-hidden rounded-xl">
             <IllustrationImage
               src="/src/assets/images/academy_hero_desk_1795680222000.jpg"
@@ -145,7 +147,7 @@ export const HomePage: React.FC = () => {
           </Link>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {ACADEMY_MODULES.map((mod, index) => (
             <Link
               key={mod.id}
@@ -194,7 +196,7 @@ export const HomePage: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {CEFR_LEVELS.map((lvl) => (
             <div
               key={lvl.level}
