@@ -110,6 +110,44 @@
   padding-right: max(1rem, env(safe-area-inset-right));
 }
 
+/* Animated mini celebration cards scattering across the screen on correct answers */
+@keyframes scatter-mini-card {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale(0.35) rotate(var(--rot-start, 0deg));
+  }
+  14% {
+    opacity: 1;
+    transform: translate3d(
+        calc(-50% + var(--drift-x, 0px) * 0.22),
+        calc(-50% - 28px),
+        0
+      )
+      scale(var(--card-scale, 1))
+      rotate(calc(var(--rot-start, 0deg) + 18deg));
+  }
+  80% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(
+        calc(-50% + var(--drift-x, 0px)),
+        calc(-50% + var(--drift-y, 220px)),
+        0
+      )
+      scale(calc(var(--card-scale, 1) * 0.72))
+      rotate(var(--rot-end, 160deg));
+  }
+}
+
+.celebration-mini-card {
+  animation-name: scatter-mini-card;
+  animation-timing-function: cubic-bezier(0.16, 0.84, 0.34, 1);
+  animation-fill-mode: forwards;
+  will-change: transform, opacity;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

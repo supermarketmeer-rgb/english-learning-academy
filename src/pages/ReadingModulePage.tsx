@@ -7,6 +7,7 @@ import { QuestionBlock } from '../components/QuestionBlock';
 import { useAcademy } from '../context/AcademyContext';
 import { AnalyticsService } from '../services/AnalyticsService';
 import { AssessmentService } from '../services/AssessmentService';
+import { FeedbackEffectsService } from '../services/FeedbackEffectsService';
 import { LessonContentService } from '../services/LessonContentService';
 import { ReadingLesson } from '../types/academy';
 import { getReadingLessonImage } from '../utils/assetLoader';
@@ -60,6 +61,7 @@ export const ReadingModulePage: React.FC = () => {
     const total = objectiveQuestions.length + lesson.shortAnswerPrompts.length;
     const score = total > 0 ? Math.round((correct / total) * 100) : 100;
     setSubmitted(true);
+    FeedbackEffectsService.triggerForScore(score);
 
     if (activeProfile) {
       await AssessmentService.recordAssessmentAttempt({

@@ -8,6 +8,7 @@ import { useAcademy } from '../context/AcademyContext';
 import { CURRICULUM_DISCLAIMER_AR } from '../data/curriculumMeta';
 import { AnalyticsService } from '../services/AnalyticsService';
 import { AssessmentService } from '../services/AssessmentService';
+import { FeedbackEffectsService } from '../services/FeedbackEffectsService';
 import { LessonContentService } from '../services/LessonContentService';
 import { ExamPack } from '../types/academy';
 
@@ -56,6 +57,7 @@ export const ExamsModulePage: React.FC = () => {
     const score = pack.questions.length > 0 ? Math.round((correct / pack.questions.length) * 100) : 100;
     setSubmitted(true);
     setLastScore(score);
+    FeedbackEffectsService.triggerForScore(score);
 
     if (activeProfile) {
       await AssessmentService.recordAssessmentAttempt({

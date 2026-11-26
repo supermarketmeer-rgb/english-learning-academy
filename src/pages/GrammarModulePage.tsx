@@ -7,6 +7,7 @@ import { QuestionBlock } from '../components/QuestionBlock';
 import { useAcademy } from '../context/AcademyContext';
 import { AnalyticsService } from '../services/AnalyticsService';
 import { AssessmentService } from '../services/AssessmentService';
+import { FeedbackEffectsService } from '../services/FeedbackEffectsService';
 import { LessonContentService } from '../services/LessonContentService';
 import { GrammarLesson } from '../types/academy';
 import { getGrammarLessonImage } from '../utils/assetLoader';
@@ -57,6 +58,7 @@ export const GrammarModulePage: React.FC = () => {
     const score =
       lesson.finalQuiz.length > 0 ? Math.round((correct / lesson.finalQuiz.length) * 100) : 100;
     setQuizSubmitted(true);
+    FeedbackEffectsService.triggerForScore(score);
 
     if (activeProfile) {
       await AssessmentService.recordAssessmentAttempt({
@@ -213,7 +215,19 @@ export const GrammarModulePage: React.FC = () => {
           ))}
           <button
             type="button"
-            onClick={() => setShowExerciseFeedback(true)}
+            onClick={() => {
+              setShowExerciseFeedback(true);
+              const correct = selectedLesson.exercises.filter(
+                (q) =>
+                  AssessmentService.normalizeAnswer(exerciseAnswers[q.id] || '') ===
+                  AssessmentService.normalizeAnswer(q.correctAnswer)
+              ).length;
+              const score =
+                selectedLesson.exercises.length > 0
+                  ? Math.round((correct / selectedLesson.exercises.length) * 100)
+                  : 100;
+              FeedbackEffectsService.triggerForScore(score);
+            }}
             className="min-h-[44px] rounded-xl border border-teal-700 px-5 py-2.5 text-sm font-semibold text-teal-800 hover:bg-teal-50 dark:border-teal-500 dark:text-teal-300 dark:hover:bg-teal-950/40"
           >
             تحقق من إجابات التدريب

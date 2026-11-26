@@ -16,6 +16,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useAcademy } from '../context/AcademyContext';
 import { CURRICULUM_DISCLAIMER_AR } from '../data/curriculumMeta';
 import { useOnlineStatus } from '../hooks/useOnlineStatus';
+import { CelebrationOverlay } from './CelebrationOverlay';
 import { IllustrationImage } from './IllustrationImage';
 import { PWAInstallButton } from './PWAInstallButton';
 
@@ -40,6 +41,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+      <CelebrationOverlay />
       {/* Top Bar: Strictly 1 row, 3 zones (optimized for iPad Portrait/Landscape & Tablets) */}
       <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 pt-safe backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95">
         <div className="mx-auto flex min-h-[56px] max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 md:gap-4 lg:gap-8 lg:px-8">

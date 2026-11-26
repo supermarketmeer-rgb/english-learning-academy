@@ -5,6 +5,7 @@ import { AudioPlayButton } from '../components/AudioPlayButton';
 import { IllustrationImage } from '../components/IllustrationImage';
 import { useAcademy } from '../context/AcademyContext';
 import { AnalyticsService } from '../services/AnalyticsService';
+import { FeedbackEffectsService } from '../services/FeedbackEffectsService';
 import { LessonContentService } from '../services/LessonContentService';
 import { VocabTopic } from '../types/academy';
 import { getVocabularyTopicImage } from '../utils/assetLoader';
@@ -58,6 +59,7 @@ export const VocabularyModulePage: React.FC = () => {
     }
     const score = Math.round((correct / topic.words.length) * 100);
     setQuizSubmitted(true);
+    FeedbackEffectsService.triggerForScore(score);
     await completeLesson(`vocab_${topic.id}`, 'vocabulary', topic.level, score);
   };
 

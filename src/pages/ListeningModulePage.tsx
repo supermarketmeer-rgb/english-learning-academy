@@ -6,6 +6,7 @@ import { QuestionBlock } from '../components/QuestionBlock';
 import { useAcademy } from '../context/AcademyContext';
 import { AnalyticsService } from '../services/AnalyticsService';
 import { AssessmentService } from '../services/AssessmentService';
+import { FeedbackEffectsService } from '../services/FeedbackEffectsService';
 import { LessonContentService } from '../services/LessonContentService';
 import { SpeechService } from '../services/SpeechService';
 import { ListeningLesson } from '../types/academy';
@@ -90,6 +91,7 @@ export const ListeningModulePage: React.FC = () => {
     const total = lesson.missingWordExercises.length + lesson.comprehensionQuestions.length;
     const score = total > 0 ? Math.round((correct / total) * 100) : 100;
     setSubmitted(true);
+    FeedbackEffectsService.triggerForScore(score);
 
     if (activeProfile) {
       await AssessmentService.recordAssessmentAttempt({

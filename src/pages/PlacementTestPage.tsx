@@ -5,6 +5,7 @@ import { AudioPlayButton } from '../components/AudioPlayButton';
 import { IllustrationImage } from '../components/IllustrationImage';
 import { useAcademy } from '../context/AcademyContext';
 import { AssessmentService } from '../services/AssessmentService';
+import { FeedbackEffectsService } from '../services/FeedbackEffectsService';
 import { LessonContentService } from '../services/LessonContentService';
 import { SpeechService } from '../services/SpeechService';
 import { PlacementQuestion, PlacementResult, SkillDomain } from '../types/academy';
@@ -72,6 +73,7 @@ export const PlacementTestPage: React.FC = () => {
         includeSpeaking
       );
       await savePlacement(evaluated);
+      FeedbackEffectsService.triggerForScore(evaluated.overallScore, 50);
       setRetaking(false);
     } finally {
       setSubmitting(false);
