@@ -1,0 +1,8 @@
+{
+  "name": "ENGLISH LEARNING ACADEMY",
+  "description": "Learn English Step by Step — Interactive CEFR-aligned English Learning Academy for Arabic-speaking primary, middle, and preparatory school students.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}

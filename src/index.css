@@ -1,0 +1,104 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-ar: 'Cairo', system-ui, -apple-system, sans-serif;
+    --font-en: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  }
+
+  html {
+    font-family: var(--font-ar);
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+}
+
+.font-en {
+  font-family: var(--font-en);
+}
+
+.font-ar {
+  font-family: var(--font-ar);
+}
+
+.font-mono-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Distinctive luminous phosphor border for cards across all screens */
+.phosphor-card {
+  border-width: 2px;
+  border-style: solid;
+  border-color: #65a30d;
+  box-shadow:
+    0 0 0 1px rgba(132, 204, 22, 0.35),
+    0 4px 16px rgba(132, 204, 22, 0.16);
+}
+
+.dark .phosphor-card {
+  border-color: #a3e635;
+  box-shadow:
+    0 0 0 1px rgba(163, 230, 53, 0.4),
+    0 0 20px rgba(163, 230, 53, 0.22);
+}
+
+.phosphor-card-interactive {
+  border-width: 2px;
+  border-style: solid;
+  border-color: #65a30d;
+  box-shadow:
+    0 0 0 1px rgba(132, 204, 22, 0.35),
+    0 4px 16px rgba(132, 204, 22, 0.16);
+  transition: border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.phosphor-card-interactive:hover {
+  border-color: #4d7c0f;
+  box-shadow:
+    0 0 0 2px rgba(132, 204, 22, 0.55),
+    0 6px 22px rgba(132, 204, 22, 0.26);
+}
+
+.dark .phosphor-card-interactive {
+  border-color: #a3e635;
+  box-shadow:
+    0 0 0 1px rgba(163, 230, 53, 0.4),
+    0 0 20px rgba(163, 230, 53, 0.22);
+}
+
+.dark .phosphor-card-interactive:hover {
+  border-color: #bef264;
+  box-shadow:
+    0 0 0 2px rgba(190, 242, 100, 0.65),
+    0 0 26px rgba(163, 230, 53, 0.35);
+}
+
+/* Safe area padding for iPad/iOS standalone PWA */
+.pb-safe {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

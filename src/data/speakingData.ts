@@ -1,0 +1,181 @@
+import { SpeakingActivity } from '../types/academy';
+
+export const SPEAKING_ACTIVITIES: SpeakingActivity[] = [
+  {
+    id: 'sp_repeat_words',
+    level: 'Pre-A1',
+    activityType: 'repeat_word',
+    activityTypeAr: 'تكرار الكلمات',
+    titleEn: 'Clear Word Pronunciation',
+    titleAr: 'التدرب على نطق الكلمات الأساسية',
+    instructionsAr:
+      'استمع لنطق كل كلمة ثم كررها بصوت واضح. إذا لم يدعم متصفحك الميكروفون، استخدم قائمة التحقق الذاتي.',
+    prompts: [
+      {
+        id: 'sp1_p1',
+        promptAr: 'انطق كلمة "Classroom" بوضوح مع مد المقطع الأول:',
+        targetEn: 'Classroom',
+        phoneticTip: 'KLASS-room',
+        checklistAr: ['نطقت صوت حرف C مثل K', 'مددت المقطع الأول Class بوضوح'],
+      },
+      {
+        id: 'sp1_p2',
+        promptAr: 'انطق كلمة "Library" بتقسيمها لمقاطع:',
+        targetEn: 'Library',
+        phoneticTip: 'LY-brer-ee',
+        checklistAr: ['نطقت المقطع الأول Lay', 'نطقت حرف R بوضوح'],
+      },
+      {
+        id: 'sp1_p3',
+        promptAr: 'انطق كلمة "Thank you" بنبرة مهذبة:',
+        targetEn: 'Thank you',
+        phoneticTip: 'THANGK-yoo',
+        checklistAr: ['أخرجت طرف اللسان في صوت th', 'وصلت الكلمتين بسلاسة'],
+      },
+    ],
+  },
+  {
+    id: 'sp_introduce_yourself',
+    level: 'A1',
+    activityType: 'introduce',
+    activityTypeAr: 'التعريف بالنفس',
+    titleEn: 'Introduce Yourself Politely',
+    titleAr: 'التعريف بنفسك باللغة الإنجليزية',
+    instructionsAr: 'تدرّب على نطق جمل التعريف بالنفس، ويمكنك تعديل الاسم والهواية أثناء حديثك.',
+    prompts: [
+      {
+        id: 'sp2_p1',
+        promptAr: 'قل التحية واذكر اسمك وصفك الدراسي:',
+        targetEn: 'Hello, my name is Sami and I am in grade six.',
+        phoneticTip: 'hel-OH, my naym iz SAH-mee...',
+        checklistAr: ['تحدثت بسرعة هادئة ومفهومة', 'نطقت am in بوضوح دون تسرع'],
+      },
+      {
+        id: 'sp2_p2',
+        promptAr: 'اذكر مادتك المفضلة وهوايتك:',
+        targetEn: 'My favorite subject is science and I like reading stories.',
+        checklistAr: ['نطقت favorite كمقطعين أو ثلاثة بشكل طبيعي', 'لفظت النهاية s في stories'],
+      },
+    ],
+  },
+  {
+    id: 'sp_repeat_sentences',
+    level: 'A1',
+    activityType: 'repeat_sentence',
+    activityTypeAr: 'تكرار الجمل',
+    titleEn: 'Everyday Classroom Requests',
+    titleAr: 'طلبات مهذبة داخل الصف الدراسي',
+    instructionsAr: 'استمع إلى الطلب المهذب وكرره بنبرة سؤال صاعدة في النهاية.',
+    prompts: [
+      {
+        id: 'sp3_p1',
+        promptAr: 'اطلب من المعلم إعادة الشرح بلطف:',
+        targetEn: 'Excuse me, could you repeat that please?',
+        checklistAr: ['بدأت بـ Excuse me', 'رفعت نبرة الصوت قليلاً عند نهاية السؤال'],
+      },
+      {
+        id: 'sp3_p2',
+        promptAr: 'اسأل عن معنى كلمة جديدة:',
+        targetEn: 'What does this word mean?',
+        checklistAr: ['نطقت What does بوضوح', 'توقفت وقفة قصيرة بعد الجملة'],
+      },
+    ],
+  },
+  {
+    id: 'sp_describe_picture',
+    level: 'A2',
+    activityType: 'describe_picture',
+    activityTypeAr: 'وصف الصور',
+    titleEn: 'Describe the Study Room',
+    titleAr: 'وصف غرفة الدراسة باللغة الإنجليزية',
+    instructionsAr: 'انظر إلى الصورة التوضيحية، ثم صف ما تراه مستخدماً There is / There are.',
+    illustrationPath: '/src/assets/images/topic_everyday_life_1795680223502.jpg',
+    prompts: [
+      {
+        id: 'sp4_p1',
+        promptAr: 'صف الأثاث والطاولة الموجودة في وسط الغرفة:',
+        targetEn: 'There is a wooden table with a bowl of fresh fruit in the room.',
+        sampleResponseEn: 'In the picture, I can see a bright room with a wooden table, two chairs, and a large bookshelf.',
+        checklistAr: ['استخدمت There is للمفرد', 'وصفت الألوان أو المواد مثل wooden'],
+      },
+      {
+        id: 'sp4_p2',
+        promptAr: 'صف النافذة والحديقة في الخلفية:',
+        targetEn: 'Through the window, we can see green trees and colorful flowers.',
+        checklistAr: ['ذكرت موقع الأشياء (near the window / behind the table)', 'نطقت الجمع flowers بوضوح'],
+      },
+    ],
+  },
+  {
+    id: 'sp_roleplay_directions',
+    level: 'A2+',
+    activityType: 'roleplay',
+    activityTypeAr: 'تمثيل الأدوار',
+    titleEn: 'Role-Play: Asking for Directions',
+    titleAr: 'تمثيل موقف: السؤال عن الاتجاهات',
+    instructionsAr: 'تدرّب على لعب دور السائل والمجيب في موقف يومي في المدينة.',
+    prompts: [
+      {
+        id: 'sp5_p1',
+        promptAr: 'الدور الأول (السائل): اسأل عن طريق مكتبة المدينة:',
+        targetEn: 'Excuse me, how can I get to the city library from here?',
+        checklistAr: ['استخدمت Excuse me للفت الانتباه بلباقة', 'نطقت library بوضوح'],
+      },
+      {
+        id: 'sp5_p2',
+        promptAr: 'الدور الثاني (المجيب): أعطِ اتجاهاً واضحاً:',
+        targetEn: 'Go straight ahead for two blocks, then turn left after the bridge.',
+        checklistAr: ['استخدمت أفعال الأمر الواضحة Go straight / turn left', 'تحدثت بتأنٍ ووضوح'],
+      },
+    ],
+  },
+  {
+    id: 'sp_qa_opinion',
+    level: 'B1',
+    activityType: 'qa',
+    activityTypeAr: 'إجابة أسئلة وتعبير',
+    titleEn: 'Expressing Opinions & Reasons',
+    titleAr: 'التعبير عن الرأي وإبداء الأسباب',
+    instructionsAr: 'أجب عن السؤال بصوت مسموع مع استخدام سبب واضح (because / in my opinion).',
+    illustrationPath: '/src/assets/images/topic_science_nature_1795680223229.jpg',
+    prompts: [
+      {
+        id: 'sp6_p1',
+        promptAr: 'السؤال: لماذا يجب على المدارس حماية البيئة وزراعة الأشجار؟',
+        targetEn: 'In my opinion, schools should plant trees because they clean the air and provide shade.',
+        sampleResponseEn: 'I believe planting trees at school teaches students responsibility and keeps the air fresh.',
+        checklistAr: ['بدأت بعبارة رأي مثل In my opinion أو I believe', 'أضفت سبباً واضحاً باستخدام because'],
+      },
+    ],
+  },
+  {
+    id: 'sp_b2_academic_debate',
+    level: 'B2',
+    activityType: 'qa',
+    activityTypeAr: 'مناظرة المرحلة الإعدادية B2',
+    titleEn: 'Academic Debate & Balanced Arguments',
+    titleAr: 'المناظرة العلمية وبناء الحجة المتوازنة (للمرحلة الإعدادية)',
+    instructionsAr: 'تدرّب على عرض وجهة نظرك مع الاعتراف بالرأي المقابل ثم الرد عليه بدليل منطقي.',
+    prompts: [
+      {
+        id: 'sp7_p1',
+        promptAr: 'ناقش: هل يجب أن تتضمن المدارس حصصاً إلزامية للبحث العلمي التطبيقي؟',
+        targetEn: 'While some argue that extra research classes add pressure, I strongly believe they prepare preparatory students for university.',
+        sampleResponseEn: 'Although balancing homework requires care, applied research projects teach critical thinking and independent problem-solving.',
+        checklistAr: [
+          'استخدمت عبارة توازن مثل While some argue أو Although',
+          'ربطت رأيي بنتيجة واضحة ومقنعة',
+        ],
+      },
+      {
+        id: 'sp7_p2',
+        promptAr: 'اعرض دليلاً عملياً يدعم موقفك في المناظرة:',
+        targetEn: 'Furthermore, working on real experiments builds both analytical confidence and teamwork.',
+        checklistAr: [
+          'استخدمت رابطاً إضافياً مثل Furthermore أو Moreover',
+          'حافظت على نبرة واثقة ووقفة واضحة بين الأفكار',
+        ],
+      },
+    ],
+  },
+];
